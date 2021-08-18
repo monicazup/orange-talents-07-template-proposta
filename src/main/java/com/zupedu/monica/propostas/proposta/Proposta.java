@@ -1,6 +1,7 @@
 package com.zupedu.monica.propostas.proposta;
 
 import com.zupedu.monica.propostas.config.CPFouCNPJ;
+import com.zupedu.monica.propostas.solicitacao.StatusSolicitacao;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -15,7 +16,7 @@ public class Proposta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @CPFouCNPJ @NotBlank
+    @CPFouCNPJ @NotBlank @Column(unique = true)
     private String documento;
     @Email
     @NotBlank
@@ -26,20 +27,36 @@ public class Proposta {
     private BigDecimal salario;
     @Embedded
     private EnderecoDeSolicitante enderecoDeSolicitante;
+    @Enumerated(EnumType.STRING)
+    private StatusSolicitacao status;
 
     public Proposta(String documento,
                     String email,
                     String nome,
-                    BigDecimal salario, EnderecoDeSolicitante enderecoDeSolicitante) {
+                    BigDecimal salario, EnderecoDeSolicitante enderecoDeSolicitante
+                    ) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;
         this.salario = salario;
         this.enderecoDeSolicitante = enderecoDeSolicitante;
+        this.status = StatusSolicitacao.EM_ANALISE;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setStatus(StatusSolicitacao status) {
+        this.status = status;
     }
 
     @Deprecated

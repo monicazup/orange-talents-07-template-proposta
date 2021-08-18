@@ -1,2 +1,8 @@
-package com.zupedu.monica.propostas.proposta.solicitacao;public class ResultadoSolicitacao {
+package com.zupedu.monica.propostas.solicitacao;
+
+public enum ResultadoSolicitacao {
+
+    COM_RESTRICAO,
+    SEM_RESTRICAO;
+
 }
