@@ -1,2 +1,52 @@
-package com.zupedu.monica.propostas.proposta;public class PropostaRequest {
+package com.zupedu.monica.propostas.proposta;
+
+import com.zupedu.monica.propostas.config.CPFouCNPJ;
+import com.zupedu.monica.propostas.config.CampoUnico;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import java.math.BigDecimal;
+
+public class PropostaRequest {
+
+    @CPFouCNPJ
+    @CampoUnico(fieldName = "documento", entityClass = Proposta.class)
+    @NotBlank
+    private String documento;
+    @Email @NotBlank
+    private String email;
+    @NotBlank
+    private String nome;
+    @NotNull @Valid
+    private EnderecoRequest endereco;
+    @NotNull @PositiveOrZero
+    private BigDecimal salario;
+
+    public Proposta toProposta() {
+        return new Proposta(documento, email, nome, salario, endereco.toEndereco());
+
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public EnderecoRequest getEndereco() {
+        return endereco;
+    }
+
+    public BigDecimal getSalario() {
+        return salario;
+    }
 }
