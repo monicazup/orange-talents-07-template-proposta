@@ -1,6 +1,6 @@
 package com.zupedu.monica.propostas.solicitacao;
 
-import com.zupedu.monica.propostas.api_externa.CartoesClient;
+import com.zupedu.monica.propostas.api_externa.AnaliseClient;
 import com.zupedu.monica.propostas.proposta.Proposta;
 import com.zupedu.monica.propostas.proposta.PropostaRepository;
 import feign.FeignException;
@@ -18,7 +18,7 @@ import java.util.List;
 public class SolicitacaoPropostaService {
 
     @Autowired
-    private CartoesClient consultaApiCartoes;
+    private AnaliseClient consultaApiCartoes;
 
     @Autowired
     private PropostaRepository repository;
