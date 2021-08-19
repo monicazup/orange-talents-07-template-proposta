@@ -9,12 +9,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zupedu.monica.propostas.solicitacao.StatusSolicitacao.EM_ANALISE;
 
 @Configuration
 @EnableScheduling
@@ -24,21 +21,17 @@ public class VerificaRestricaoScheduler {
     @Autowired
     SolicitacaoPropostaService service;
 
-//    public VerificaRestricaoScheduler(SolicitacaoPropostaService service) {
-//        this.service = service;
-//    }
 
     @Scheduled(fixedDelay = 10000)
     public void analisarPropostas() {
 
-        List<Proposta> propostas = service.listarPropostasEmAnalise();
-
-        if (!propostas.isEmpty()) {
-            List<SolicitacaoAnalise> solicitacoesPendentes =
-                    service.converterPropostaParaSolicitacao(propostas);
-
+        List<Proposta> propostasEmAnalise = service.listarPropostasEmAnalise();
+        List<SolicitacaoAnalise> solicitacoesPendentes = new ArrayList<>();
+        if (!propostasEmAnalise.isEmpty()) {
+            solicitacoesPendentes = service.converterPropostaParaSolicitacao(propostasEmAnalise);
         }
-    }
+        service.analisarSolicitacoes(solicitacoesPendentes);
 
+    }
 
 }

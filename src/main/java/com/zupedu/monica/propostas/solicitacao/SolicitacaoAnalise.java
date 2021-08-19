@@ -20,7 +20,15 @@ public class SolicitacaoAnalise {
         this.idProposta = proposta.getId().toString();
     }
 
-    public String getIdProposta() {
-        return idProposta;
+    public Long getIdProposta() {
+        return Long.valueOf(idProposta);
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }
