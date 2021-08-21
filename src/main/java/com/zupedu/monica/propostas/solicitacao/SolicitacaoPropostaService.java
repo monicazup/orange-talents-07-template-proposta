@@ -30,7 +30,6 @@ public class SolicitacaoPropostaService {
     private EntityManager manager;
 
 
-    @Transactional
     public List<Proposta> listarPropostasPorStatus(StatusSolicitacao statusSolicitacao) {
         return repository.findByStatus(statusSolicitacao);
     }

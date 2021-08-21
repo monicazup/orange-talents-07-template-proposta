@@ -12,4 +12,18 @@ public class SolicitacaoCartao {
         this.nome = proposta.getNome();
         this.idProposta = proposta.getId().toString();
     }
+    @Deprecated
+    public SolicitacaoCartao(){}
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getIdProposta() {
+        return idProposta;
+    }
 }

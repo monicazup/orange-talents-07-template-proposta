@@ -30,7 +30,7 @@ public class Proposta {
     private EnderecoDeSolicitante enderecoDeSolicitante;
     @Enumerated(EnumType.STRING)
     private StatusSolicitacao status;
-    @OneToOne(mappedBy = "proposta")
+    @OneToOne(cascade=CascadeType.PERSIST)
     private Cartao cartao;
 
     public Proposta(String documento,

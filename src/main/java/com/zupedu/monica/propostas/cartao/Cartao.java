@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class Cartao {
     @Id
     @Column(insertable = true, updatable = true)
-    private Long idCartao;
+    private String idCartao;
     private LocalDateTime emitidoEm;
     private String titular;
     @Embedded
@@ -32,7 +32,7 @@ public class Cartao {
     @OneToOne
     private Proposta proposta;
 
-    public Cartao(Long idCartao,
+    public Cartao(String idCartao,
                   LocalDateTime emitidoEm,
                   String titular,
                   List<Bloqueio> bloqueios,
@@ -56,23 +56,26 @@ public class Cartao {
         this.proposta = proposta;
     }
 
-    public Cartao(CartaoRequest request, EntityManager manager) {
-        this.idCartao = Long.valueOf(request.getId());
+    public Cartao(CartaoRequest request, Proposta proposta) {
+        this.idCartao = request.getId();
         this.emitidoEm = request.getEmitidoEm();
         this.titular = request.getTitular();
         this.bloqueios = request.getBloqueios()
                 .stream()
                 .map(BloqueioRequest::paraBloqueio)
                 .collect(Collectors.toList());
-        ;
         this.avisos = request.getAvisos()
                 .stream().map(AvisoRequest::paraAviso).collect(Collectors.toList());
         this.carteiras = request.getCarteiras().stream().map(CarteiraRequest::paraCarteira).collect(Collectors.toList());
         this.parcelas = request.getParcelas().stream().map(ParcelaRequest::paraParcela).collect(Collectors.toList());
         this.limite = BigDecimal.valueOf(request.getLimite());
-        this.renegociacao = request.getRenegociacao().paraRenegociacao();
+        if (request.getRenegociacao() == null) {
+            this.renegociacao = null;
+        } else {
+            this.renegociacao = request.getRenegociacao().paraRenegociacao();
+        }
         this.vencimento = request.getVencimento().paraVencimento();
-        this.proposta = manager.find(Proposta.class, request.getIdProposta());
+        this.proposta = proposta;
     }
 
     @Deprecated

@@ -19,6 +19,7 @@ public class RenegociacaoRequest {
     }
 
     public Renegociacao paraRenegociacao() {
+
         return new Renegociacao(id, quantidade,BigDecimal.valueOf(valor),dataDeCriacao);
     }
 
