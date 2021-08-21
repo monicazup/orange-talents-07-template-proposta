@@ -81,4 +81,48 @@ public class Cartao {
     @Deprecated
     public Cartao() {
     }
+
+    public String getIdCartao() {
+        return idCartao;
+    }
+
+    public LocalDateTime getEmitidoEm() {
+        return emitidoEm;
+    }
+
+    public String getTitular() {
+        return titular;
+    }
+
+    public List<Bloqueio> getBloqueios() {
+        return bloqueios;
+    }
+
+    public List<Aviso> getAvisos() {
+        return avisos;
+    }
+
+    public List<Carteira> getCarteiras() {
+        return carteiras;
+    }
+
+    public List<Parcela> getParcelas() {
+        return parcelas;
+    }
+
+    public BigDecimal getLimite() {
+        return limite;
+    }
+
+    public Renegociacao getRenegociacao() {
+        return renegociacao;
+    }
+
+    public Vencimento getVencimento() {
+        return vencimento;
+    }
+
+    public Proposta getProposta() {
+        return proposta;
+    }
 }

@@ -31,4 +31,28 @@ public class EnderecoDeSolicitante {
     public EnderecoDeSolicitante(){
 
     }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
 }

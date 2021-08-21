@@ -25,7 +25,7 @@ public class PropostaRequest {
     @NotNull @PositiveOrZero
     private BigDecimal salario;
 
-    public Proposta toProposta() {
+    public Proposta paraProposta() {
         return new Proposta(documento, email, nome, salario, endereco.toEndereco());
 
     }
