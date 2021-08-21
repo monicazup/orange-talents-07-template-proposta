@@ -1,4 +1,6 @@
-package com.zupedu.monica.propostas.cartao;
+package com.zupedu.monica.propostas.cartao.dto;
+
+import com.zupedu.monica.propostas.cartao.Parcela;
 
 import java.math.BigDecimal;
 
@@ -6,9 +8,9 @@ public class ParcelaRequest {
 
     private String id;
     private Integer quantidade;
-    private BigDecimal valor;
+    private Integer valor;
 
-    public ParcelaRequest(String id, Integer quantidade, BigDecimal valor) {
+    public ParcelaRequest(String id, Integer quantidade, Integer valor) {
         this.id = id;
         this.quantidade = quantidade;
         this.valor = valor;
@@ -22,7 +24,11 @@ public class ParcelaRequest {
         return quantidade;
     }
 
-    public BigDecimal getValor() {
+    public Integer getValor() {
         return valor;
+    }
+
+    public Parcela paraParcela() {
+        return new Parcela(this.id, this.quantidade,BigDecimal.valueOf(this.valor));
     }
 }

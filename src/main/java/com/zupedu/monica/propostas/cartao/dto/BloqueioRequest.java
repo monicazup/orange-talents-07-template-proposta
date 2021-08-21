@@ -1,4 +1,6 @@
-package com.zupedu.monica.propostas.cartao;
+package com.zupedu.monica.propostas.cartao.dto;
+
+import com.zupedu.monica.propostas.cartao.Bloqueio;
 
 import java.time.LocalDateTime;
 
@@ -32,5 +34,21 @@ public class BloqueioRequest {
 
     public boolean isAtivo() {
         return ativo;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setBloqueadoEm(LocalDateTime bloqueadoEm) {
+        this.bloqueadoEm = bloqueadoEm;
+    }
+
+    public void setSistemaResponsavel(String sistemaResponsavel) {
+        this.sistemaResponsavel = sistemaResponsavel;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

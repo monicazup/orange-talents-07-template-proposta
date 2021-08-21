@@ -1,19 +1,21 @@
 package com.zupedu.monica.propostas.cartao;
 
+import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
-import java.time.MonthDay;
 
+@Embeddable
 public class Vencimento {
 
     private String id;
-    private MonthDay dia;
-    private LocalDateTime dataDeCriacao;
+    private int dia;
+    private LocalDateTime dataDeCriacaoVencimento;
 
-    public Vencimento(String id, MonthDay dia, LocalDateTime dataDeCriacao) {
+    public Vencimento(String id, int dia, LocalDateTime dataDeCriacao) {
         this.id = id;
         this.dia = dia;
-        this.dataDeCriacao = dataDeCriacao;
+        this.dataDeCriacaoVencimento = dataDeCriacao;
     }
+
 
     @Deprecated
     public Vencimento(){}

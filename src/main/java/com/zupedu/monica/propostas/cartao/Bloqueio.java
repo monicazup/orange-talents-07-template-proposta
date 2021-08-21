@@ -1,7 +1,9 @@
 package com.zupedu.monica.propostas.cartao;
 
+import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 
+@Embeddable
 public class Bloqueio {
     private String id;
     private LocalDateTime bloqueadoEm;

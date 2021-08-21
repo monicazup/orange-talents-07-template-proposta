@@ -1,4 +1,6 @@
-package com.zupedu.monica.propostas.cartao;
+package com.zupedu.monica.propostas.cartao.dto;
+
+import com.zupedu.monica.propostas.cartao.Vencimento;
 
 import java.time.LocalDateTime;
 import java.time.MonthDay;
@@ -6,10 +8,10 @@ import java.time.MonthDay;
 public class VencimentoRequest {
 
     private String id;
-    private MonthDay dia;
+    private int dia;
     private LocalDateTime dataDeCriacao;
 
-    public VencimentoRequest(String id, MonthDay dia, LocalDateTime dataDeCriacao) {
+    public VencimentoRequest(String id, int dia, LocalDateTime dataDeCriacao) {
         this.id = id;
         this.dia = dia;
         this.dataDeCriacao = dataDeCriacao;
@@ -23,7 +25,7 @@ public class VencimentoRequest {
         return id;
     }
 
-    public MonthDay getDia() {
+    public int getDia() {
         return dia;
     }
 

@@ -13,6 +13,8 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zupedu.monica.propostas.solicitacao.StatusSolicitacao.*;
+
 
 @Service
 public class SolicitacaoPropostaService {
@@ -29,9 +31,8 @@ public class SolicitacaoPropostaService {
 
 
     @Transactional
-    public List<Proposta> listarPropostasEmAnalise() {
-        List<Proposta> propostasEmAnalise = repository.findByStatus(StatusSolicitacao.EM_ANALISE);
-        return propostasEmAnalise;
+    public List<Proposta> listarPropostasPorStatus(StatusSolicitacao statusSolicitacao) {
+        return repository.findByStatus(statusSolicitacao);
     }
 
     public List<SolicitacaoAnalise> converterPropostaParaSolicitacao(List<Proposta> propostas) {
@@ -52,11 +53,11 @@ public class SolicitacaoPropostaService {
 
             try {
                 consultaApiCartoes.retornarResultadoSolicitacao(solicitacao);
-                proposta.setStatus(StatusSolicitacao.ELEGIVEL);
+                proposta.setStatus(ELEGIVEL);
 
             } catch (FeignException e) {
                 if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value())
-                    proposta.setStatus(StatusSolicitacao.NAO_ELEGIVEL);
+                    proposta.setStatus(NAO_ELEGIVEL);
             }
             manager.merge(proposta);
         }
@@ -64,7 +65,5 @@ public class SolicitacaoPropostaService {
     }
 
     @Deprecated
-    public SolicitacaoPropostaService() {
-
-    }
+    public SolicitacaoPropostaService() {  }
 }

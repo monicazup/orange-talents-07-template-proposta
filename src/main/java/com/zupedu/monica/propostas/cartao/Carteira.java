@@ -1,7 +1,11 @@
 package com.zupedu.monica.propostas.cartao;
 
+import com.zupedu.monica.propostas.cartao.dto.CarteiraRequest;
+
+import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 
+@Embeddable
 public class Carteira {
     private String id;
     private String email;

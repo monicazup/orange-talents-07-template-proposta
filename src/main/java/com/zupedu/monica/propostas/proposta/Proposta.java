@@ -1,5 +1,6 @@
 package com.zupedu.monica.propostas.proposta;
 
+import com.zupedu.monica.propostas.cartao.Cartao;
 import com.zupedu.monica.propostas.config.CPFouCNPJ;
 import com.zupedu.monica.propostas.solicitacao.StatusSolicitacao;
 
@@ -29,6 +30,8 @@ public class Proposta {
     private EnderecoDeSolicitante enderecoDeSolicitante;
     @Enumerated(EnumType.STRING)
     private StatusSolicitacao status;
+    @OneToOne(mappedBy = "proposta")
+    private Cartao cartao;
 
     public Proposta(String documento,
                     String email,
@@ -61,4 +64,8 @@ public class Proposta {
 
     @Deprecated
     public Proposta(){}
+
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
+    }
 }

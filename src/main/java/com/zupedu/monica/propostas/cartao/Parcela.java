@@ -1,7 +1,11 @@
 package com.zupedu.monica.propostas.cartao;
 
+import com.zupedu.monica.propostas.cartao.dto.ParcelaRequest;
+
+import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
+@Embeddable
 public class Parcela {
 
     private String id;
@@ -11,7 +15,7 @@ public class Parcela {
     public Parcela(ParcelaRequest request){
         this.id = request.getId();
         this.quantidade = request.getQuantidade();
-        this.valor = request.getValor();
+        this.valor = BigDecimal.valueOf(request.getValor());
     }
 
 

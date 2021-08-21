@@ -25,7 +25,7 @@ public class PropostaController {
     }
 
     @PostMapping @Transactional
-    public ResponseEntity<?> cadastrar(@RequestBody @Valid PropostaRequest request,
+    public ResponseEntity<Proposta> cadastrar(@RequestBody @Valid PropostaRequest request,
                                        UriComponentsBuilder uriBuilder) {
 
         Proposta proposta = request.toProposta();

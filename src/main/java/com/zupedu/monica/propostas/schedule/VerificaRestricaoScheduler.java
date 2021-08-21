@@ -12,6 +12,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zupedu.monica.propostas.solicitacao.StatusSolicitacao.EM_ANALISE;
+
 
 @Configuration
 @EnableScheduling
@@ -22,10 +24,10 @@ public class VerificaRestricaoScheduler {
     SolicitacaoPropostaService service;
 
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelayString = "${periodicidade.verifica-restricao}")
     public void analisarPropostas() {
 
-        List<Proposta> propostasEmAnalise = service.listarPropostasEmAnalise();
+        List<Proposta> propostasEmAnalise = service.listarPropostasPorStatus(EM_ANALISE);
         List<SolicitacaoAnalise> solicitacoesPendentes = new ArrayList<>();
         if (!propostasEmAnalise.isEmpty()) {
             solicitacoesPendentes = service.converterPropostaParaSolicitacao(propostasEmAnalise);

@@ -1,4 +1,6 @@
-package com.zupedu.monica.propostas.cartao;
+package com.zupedu.monica.propostas.cartao.dto;
+
+import com.zupedu.monica.propostas.cartao.Carteira;
 
 import java.time.LocalDateTime;
 
@@ -33,4 +35,9 @@ public class CarteiraRequest {
     public String getEmissor() {
         return emissor;
     }
+
+    public Carteira paraCarteira() {
+        return new Carteira(this.id, this.email, this.associadaEm, this.emissor);
+    }
+
 }
