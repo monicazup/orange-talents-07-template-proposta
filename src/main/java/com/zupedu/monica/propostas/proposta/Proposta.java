@@ -1,5 +1,6 @@
 package com.zupedu.monica.propostas.proposta;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zupedu.monica.propostas.cartao.Cartao;
 import com.zupedu.monica.propostas.config.CPFouCNPJ;
 import com.zupedu.monica.propostas.solicitacao.StatusSolicitacao;
@@ -30,7 +31,7 @@ public class Proposta {
     private EnderecoDeSolicitante enderecoDeSolicitante;
     @Enumerated(EnumType.STRING)
     private StatusSolicitacao status;
-    @OneToOne(cascade=CascadeType.PERSIST)
+    @OneToOne(cascade=CascadeType.PERSIST) @JsonIgnore
     private Cartao cartao;
 
     public Proposta(String documento,
