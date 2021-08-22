@@ -23,20 +23,20 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
   #APPLICATION
-  propostas:
-    build:
-      dockerfile: Dockerfile
-      context: .
-    image: 'monicagomides/ot7-proposta'
-    restart: on-failure
-    container_name: appproposta
-    ports:
-      - "8080:8080"
-    depends_on:
-      - analise
-      - contas
+#  propostas:
+#    build:
+#      dockerfile: Dockerfile
+#      context: .
+#    image: 'monicagomides/ot7-proposta'
+#    restart: on-failure
+#    container_name: appproposta
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - analise
+#      - contas
 #      - keycloak
-      - propostasdb-postgres
+#      - propostasdb-postgres
 
     environment:
       ANALISES_URL: http://analise:9999/api/solicitacao

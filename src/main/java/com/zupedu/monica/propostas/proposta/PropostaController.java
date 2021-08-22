@@ -33,8 +33,8 @@ public class PropostaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ConsultaDePropostaResponse> consultar(@PathVariable("id") Long idProposta
-            /*, @AuthenticationPrincipal Usuario usuario */) {
+    public ResponseEntity<ConsultaDePropostaResponse> consultar(@PathVariable("id") Long idProposta/*,
+     @AuthenticationPrincipal Usuario usuario */) {
 
         Proposta proposta = manager.find(Proposta.class, idProposta);
 
