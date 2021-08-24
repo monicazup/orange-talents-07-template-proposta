@@ -15,7 +15,6 @@ public class CampoUnicoValidator implements ConstraintValidator<CampoUnico, Stri
     private String campo;
     private Class<?> entidade;
 
-
     @PersistenceContext
     private EntityManager entityManager;
 

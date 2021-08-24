@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients
-@SpringBootApplication//(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication()
 public class PropostasApplication {
 
 	public static void main(String[] args) {

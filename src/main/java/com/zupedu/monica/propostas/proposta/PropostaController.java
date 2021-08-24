@@ -14,7 +14,6 @@ import java.net.URI;
 @RequestMapping("/proposta")
 public class PropostaController {
 
-
     EntityManager manager;
     public PropostaController(EntityManager manager) {
         this.manager = manager;
@@ -23,6 +22,7 @@ public class PropostaController {
     @PostMapping @Transactional
     public ResponseEntity<Proposta> cadastrar(@RequestBody @Valid PropostaRequest request,
                                        UriComponentsBuilder uriBuilder) {
+
 
         Proposta proposta = request.paraProposta();
 
