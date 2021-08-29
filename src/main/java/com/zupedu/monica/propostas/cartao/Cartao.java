@@ -18,11 +18,11 @@ public class Cartao {
     private String titular;
     @OneToMany(mappedBy = "cartao")
     private List<Bloqueio> bloqueios;
-    @Embedded
+    @OneToMany(mappedBy = "cartao")
     private List<Aviso> avisos;
-    @Embedded
+    @OneToMany(mappedBy = "cartao")
     private List<Carteira> carteiras;
-    @Embedded
+    @OneToMany(mappedBy = "cartao")
     private List<Parcela> parcelas;
     private BigDecimal limite;
     @Embedded
@@ -82,6 +82,11 @@ public class Cartao {
 
     @Deprecated
     public Cartao() {
+    }
+
+    public static Cartao procuraCartaoPorId(EntityManager manager, String id) {
+        Cartao cartao = manager.find(Cartao.class, id);
+        return cartao;
     }
 
     public String getIdCartao() {

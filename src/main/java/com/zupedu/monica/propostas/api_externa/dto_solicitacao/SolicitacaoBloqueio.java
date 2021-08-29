@@ -1,4 +1,4 @@
-package com.zupedu.monica.propostas.api_externa.solicitacao;
+package com.zupedu.monica.propostas.api_externa.dto_solicitacao;
 
 public class SolicitacaoBloqueio {
     String sistemaResponsavel;

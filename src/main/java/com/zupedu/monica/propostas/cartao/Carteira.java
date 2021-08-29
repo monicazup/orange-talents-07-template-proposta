@@ -2,27 +2,24 @@ package com.zupedu.monica.propostas.cartao;
 
 import com.zupedu.monica.propostas.cartao.dto.CarteiraRequest;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Embeddable
+@Entity
 public class Carteira {
-    private String id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String email;
     private LocalDateTime associadaEm;
     private String emissor;
+    @ManyToOne
+    Cartao cartao;
 
-    public Carteira(String id, String email, LocalDateTime associadaEm, String emissor) {
+    public Carteira(Long id, String email, LocalDateTime associadaEm, String emissor) {
         this.id = id;
         this.email = email;
         this.associadaEm = associadaEm;
         this.emissor = emissor;
     }
 
-    public Carteira(CarteiraRequest carteiraRequest){
-        this.id = carteiraRequest.getId();
-        this.email = carteiraRequest.getEmail();
-        this.associadaEm = carteiraRequest.getAssociadaEm();
-        this.emissor = carteiraRequest.getEmissor();
-    }
 }

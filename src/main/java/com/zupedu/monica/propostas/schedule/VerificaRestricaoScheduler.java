@@ -1,8 +1,8 @@
 package com.zupedu.monica.propostas.schedule;
 
 import com.zupedu.monica.propostas.proposta.Proposta;
-import com.zupedu.monica.propostas.api_externa.solicitacao.SolicitacaoAnalise;
-import com.zupedu.monica.propostas.api_externa.solicitacao.SolicitacaoPropostaService;
+import com.zupedu.monica.propostas.api_externa.dto_solicitacao.SolicitacaoAnalise;
+import com.zupedu.monica.propostas.api_externa.dto_solicitacao.SolicitacaoPropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;

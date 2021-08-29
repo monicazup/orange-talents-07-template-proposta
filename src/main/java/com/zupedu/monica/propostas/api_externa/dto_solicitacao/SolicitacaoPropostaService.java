@@ -1,4 +1,4 @@
-package com.zupedu.monica.propostas.api_externa.solicitacao;
+package com.zupedu.monica.propostas.api_externa.dto_solicitacao;
 
 import com.zupedu.monica.propostas.api_externa.AnaliseClient;
 import com.zupedu.monica.propostas.proposta.Proposta;

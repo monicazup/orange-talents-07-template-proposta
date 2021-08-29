@@ -18,12 +18,14 @@ public class Bloqueio {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Cartao cartao;
     private String userAgent;
+    private String ip;
 
-    public Bloqueio(String userAgent, Cartao cartao, boolean ativo) {
+    public Bloqueio(String userAgent, String ip, Cartao cartao, boolean ativo) {
         this.bloqueadoEm = LocalDateTime.now();
         this.userAgent = userAgent;
         this.ativo = ativo;
         this.cartao = cartao;
+        this.ip = ip;
     }
 
     public Bloqueio(String userAgent, String sistemaResponsavel, boolean ativo) {

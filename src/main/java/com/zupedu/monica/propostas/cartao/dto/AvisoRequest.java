@@ -2,10 +2,16 @@ package com.zupedu.monica.propostas.cartao.dto;
 
 import com.zupedu.monica.propostas.cartao.Aviso;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class AvisoRequest {
-    private LocalDate validoAte;
+    @NotNull
+    @Future
+    private LocalDate validoAte; //validoAte é término da viagem
+    @NotBlank
     private String destino;
 
     public AvisoRequest(LocalDate validoAte, String destino) {
