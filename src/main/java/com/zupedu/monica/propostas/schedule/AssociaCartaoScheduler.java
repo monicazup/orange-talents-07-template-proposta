@@ -35,6 +35,7 @@ public class AssociaCartaoScheduler {
     public void associaCartao() {
 
         List<Proposta> propostasElegiveis = service.listarPropostasPorStatus(ELEGIVEL);
+
         if (!propostasElegiveis.isEmpty()) {
             for (Proposta proposta : propostasElegiveis) {
 

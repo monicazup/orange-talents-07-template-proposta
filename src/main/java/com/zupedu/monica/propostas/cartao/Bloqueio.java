@@ -1,20 +1,42 @@
 package com.zupedu.monica.propostas.cartao;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Embeddable
+@Entity
 public class Bloqueio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
+    @NotNull
     private LocalDateTime bloqueadoEm;
     private String sistemaResponsavel;
-    private boolean ativo;
+    @NotNull
+    private boolean ativo = false;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Cartao cartao;
 
-    public Bloqueio(String id, LocalDateTime bloqueadoEm, String sistemaResponsavel, boolean ativo) {
+    public Bloqueio(String id, String sistemaResponsavel, boolean ativo) {
         this.id = id;
-        this.bloqueadoEm = bloqueadoEm;
+        this.bloqueadoEm = LocalDateTime.now();
         this.sistemaResponsavel = sistemaResponsavel;
         this.ativo = ativo;
+    }
+
+    public Bloqueio(String sistemaResponsavel, Cartao cartao, Boolean ativo) {
+        this.ativo = true;
+        this.bloqueadoEm = LocalDateTime.now();
+        this.sistemaResponsavel = sistemaResponsavel;
+        this.cartao = cartao;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
     }
 
     @Deprecated

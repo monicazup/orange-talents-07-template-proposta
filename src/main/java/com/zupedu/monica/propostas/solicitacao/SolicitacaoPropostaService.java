@@ -36,10 +36,11 @@ public class SolicitacaoPropostaService {
 
     public List<SolicitacaoAnalise> converterPropostaParaSolicitacao(List<Proposta> propostas) {
         List<SolicitacaoAnalise> solicitacoesPendentes = new ArrayList<>();
-
-        for (Proposta proposta : propostas) {
-            SolicitacaoAnalise solicitacao = new SolicitacaoAnalise(proposta);
-            solicitacoesPendentes.add(solicitacao);
+        if (!propostas.isEmpty()) {
+            for (Proposta proposta : propostas) {
+                SolicitacaoAnalise solicitacao = new SolicitacaoAnalise(proposta);
+                solicitacoesPendentes.add(solicitacao);
+            }
         }
         return solicitacoesPendentes;
     }
@@ -64,5 +65,6 @@ public class SolicitacaoPropostaService {
     }
 
     @Deprecated
-    public SolicitacaoPropostaService() {  }
+    public SolicitacaoPropostaService() {
+    }
 }

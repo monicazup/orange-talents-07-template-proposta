@@ -17,7 +17,7 @@ public class BloqueioRequest {
         this.ativo = ativo;
     }
     public Bloqueio paraBloqueio() {
-        return new Bloqueio(id, bloqueadoEm,sistemaResponsavel,ativo);
+        return new Bloqueio(id, sistemaResponsavel,ativo);
     }
 
     public String getId() {

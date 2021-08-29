@@ -16,7 +16,7 @@ public class Cartao {
     private String idCartao;
     private LocalDateTime emitidoEm;
     private String titular;
-    @Embedded
+    @OneToMany(mappedBy = "cartao")
     private List<Bloqueio> bloqueios;
     @Embedded
     private List<Aviso> avisos;
@@ -31,6 +31,29 @@ public class Cartao {
     private Vencimento vencimento;
     @OneToOne
     private Proposta proposta;
+
+
+    public Cartao(CartaoRequest request, Proposta proposta) {
+        this.idCartao = request.getId();
+        this.emitidoEm = request.getEmitidoEm();
+        this.titular = request.getTitular();
+        this.bloqueios = request.getBloqueios()
+                .stream()
+                .map(BloqueioRequest::paraBloqueio)
+                .collect(Collectors.toList());
+        this.avisos = request.getAvisos()
+                .stream().map(AvisoRequest::paraAviso).collect(Collectors.toList());
+        this.carteiras = request.getCarteiras().stream().map(CarteiraRequest::paraCarteira).collect(Collectors.toList());
+        this.parcelas = request.getParcelas().stream().map(ParcelaRequest::paraParcela).collect(Collectors.toList());
+        this.limite = BigDecimal.valueOf(request.getLimite());
+        if (request.getRenegociacao() == null) {
+            this.renegociacao = null;
+        } else {
+            this.renegociacao = request.getRenegociacao().paraRenegociacao();
+        }
+        this.vencimento = request.getVencimento().paraVencimento();
+        this.proposta = proposta;
+    }
 
     public Cartao(String idCartao,
                   LocalDateTime emitidoEm,
@@ -56,27 +79,6 @@ public class Cartao {
         this.proposta = proposta;
     }
 
-    public Cartao(CartaoRequest request, Proposta proposta) {
-        this.idCartao = request.getId();
-        this.emitidoEm = request.getEmitidoEm();
-        this.titular = request.getTitular();
-        this.bloqueios = request.getBloqueios()
-                .stream()
-                .map(BloqueioRequest::paraBloqueio)
-                .collect(Collectors.toList());
-        this.avisos = request.getAvisos()
-                .stream().map(AvisoRequest::paraAviso).collect(Collectors.toList());
-        this.carteiras = request.getCarteiras().stream().map(CarteiraRequest::paraCarteira).collect(Collectors.toList());
-        this.parcelas = request.getParcelas().stream().map(ParcelaRequest::paraParcela).collect(Collectors.toList());
-        this.limite = BigDecimal.valueOf(request.getLimite());
-        if (request.getRenegociacao() == null) {
-            this.renegociacao = null;
-        } else {
-            this.renegociacao = request.getRenegociacao().paraRenegociacao();
-        }
-        this.vencimento = request.getVencimento().paraVencimento();
-        this.proposta = proposta;
-    }
 
     @Deprecated
     public Cartao() {

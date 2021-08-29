@@ -12,7 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorizeRequests ->
@@ -20,7 +19,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .antMatchers(HttpMethod.GET, "/proposta/**").hasAuthority("SCOPE_scope-write")
                         .antMatchers(HttpMethod.POST, "/proposta").hasAuthority("SCOPE_scope-write")
                         .antMatchers(HttpMethod.POST, "/cartao/**").hasAuthority("SCOPE_scope-write")
-                        .antMatchers(HttpMethod.POST, "/biometria").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/cartao/").hasAuthority("SCOPE_scope-write")
+                        .antMatchers(HttpMethod.POST, "/biometria").hasAuthority("SCOPE_scope-write")
         ).cors()
                 .and()
                 .csrf()
