@@ -3,7 +3,6 @@ package com.zupedu.monica.propostas.proposta;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zupedu.monica.propostas.cartao.Cartao;
 import com.zupedu.monica.propostas.config.CPFouCNPJ;
-import com.zupedu.monica.propostas.solicitacao.StatusSolicitacao;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -30,7 +29,7 @@ public class Proposta {
     @Embedded
     private EnderecoDeSolicitante enderecoDeSolicitante;
     @Enumerated(EnumType.STRING)
-    private StatusSolicitacao status;
+    private StatusSolicitacaoEnum status;
     @OneToOne(cascade=CascadeType.PERSIST) @JsonIgnore
     private Cartao cartao;
 
@@ -44,7 +43,7 @@ public class Proposta {
         this.nome = nome;
         this.salario = salario;
         this.enderecoDeSolicitante = enderecoDeSolicitante;
-        this.status = StatusSolicitacao.EM_ANALISE;
+        this.status = StatusSolicitacaoEnum.EM_ANALISE;
     }
 
     public Long getId() {
@@ -59,7 +58,7 @@ public class Proposta {
         return nome;
     }
 
-    public void setStatus(StatusSolicitacao status) {
+    public void setStatus(StatusSolicitacaoEnum status) {
         this.status = status;
     }
 
@@ -82,7 +81,7 @@ public class Proposta {
         return enderecoDeSolicitante;
     }
 
-    public StatusSolicitacao getStatus() {
+    public StatusSolicitacaoEnum getStatus() {
         return status;
     }
 

@@ -1,8 +1,9 @@
-package com.zupedu.monica.propostas.solicitacao;
+package com.zupedu.monica.propostas.api_externa.solicitacao;
 
 import com.zupedu.monica.propostas.api_externa.AnaliseClient;
 import com.zupedu.monica.propostas.proposta.Proposta;
 import com.zupedu.monica.propostas.proposta.PropostaRepository;
+import com.zupedu.monica.propostas.proposta.StatusSolicitacaoEnum;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zupedu.monica.propostas.solicitacao.StatusSolicitacao.*;
+import static com.zupedu.monica.propostas.proposta.StatusSolicitacaoEnum.*;
 
 
 @Service
@@ -30,7 +31,7 @@ public class SolicitacaoPropostaService {
     private EntityManager manager;
 
 
-    public List<Proposta> listarPropostasPorStatus(StatusSolicitacao statusSolicitacao) {
+    public List<Proposta> listarPropostasPorStatus(StatusSolicitacaoEnum statusSolicitacao) {
         return repository.findByStatus(statusSolicitacao);
     }
 

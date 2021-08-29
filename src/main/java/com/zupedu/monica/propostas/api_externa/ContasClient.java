@@ -1,7 +1,9 @@
 package com.zupedu.monica.propostas.api_externa;
 
+import com.zupedu.monica.propostas.api_externa.solicitacao.ResultadoBloqueio;
+import com.zupedu.monica.propostas.api_externa.solicitacao.SolicitacaoBloqueio;
 import com.zupedu.monica.propostas.cartao.dto.CartaoRequest;
-import com.zupedu.monica.propostas.solicitacao.SolicitacaoCartao;
+import com.zupedu.monica.propostas.api_externa.solicitacao.SolicitacaoCartao;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,5 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public interface ContasClient {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<CartaoRequest> retornaCartao(@RequestBody SolicitacaoCartao solicitacao);
+    ResponseEntity<CartaoRequest> retornarCartao(@RequestBody SolicitacaoCartao solicitacao);
+
+    @PostMapping(value = "/{id}/bloqueios", consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ResultadoBloqueio> solicitarBloqueio(@RequestBody SolicitacaoBloqueio solicitacaoBloqueio, @PathVariable("id") String idCartao);
 }

@@ -4,8 +4,8 @@ import com.zupedu.monica.propostas.api_externa.ContasClient;
 import com.zupedu.monica.propostas.cartao.Cartao;
 import com.zupedu.monica.propostas.cartao.dto.CartaoRequest;
 import com.zupedu.monica.propostas.proposta.Proposta;
-import com.zupedu.monica.propostas.solicitacao.SolicitacaoCartao;
-import com.zupedu.monica.propostas.solicitacao.SolicitacaoPropostaService;
+import com.zupedu.monica.propostas.api_externa.solicitacao.SolicitacaoCartao;
+import com.zupedu.monica.propostas.api_externa.solicitacao.SolicitacaoPropostaService;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 
 import java.util.List;
 
-import static com.zupedu.monica.propostas.solicitacao.StatusSolicitacao.*;
+import static com.zupedu.monica.propostas.proposta.StatusSolicitacaoEnum.*;
 
 @Component
 public class AssociaCartaoScheduler {
@@ -41,7 +41,7 @@ public class AssociaCartaoScheduler {
 
                 SolicitacaoCartao solicitacao = new SolicitacaoCartao(proposta);
                 try {
-                    CartaoRequest cartaoRequest = consultaApiContas.retornaCartao(solicitacao).getBody();
+                    CartaoRequest cartaoRequest = consultaApiContas.retornarCartao(solicitacao).getBody();
                     Cartao cartao = new Cartao(cartaoRequest, proposta);
 
                     proposta.setCartao(cartao);

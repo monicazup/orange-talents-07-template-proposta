@@ -1,8 +1,8 @@
 package com.zupedu.monica.propostas.schedule;
 
 import com.zupedu.monica.propostas.proposta.Proposta;
-import com.zupedu.monica.propostas.solicitacao.SolicitacaoAnalise;
-import com.zupedu.monica.propostas.solicitacao.SolicitacaoPropostaService;
+import com.zupedu.monica.propostas.api_externa.solicitacao.SolicitacaoAnalise;
+import com.zupedu.monica.propostas.api_externa.solicitacao.SolicitacaoPropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zupedu.monica.propostas.solicitacao.StatusSolicitacao.EM_ANALISE;
+import static com.zupedu.monica.propostas.proposta.StatusSolicitacaoEnum.EM_ANALISE;
 
 
 @Configuration

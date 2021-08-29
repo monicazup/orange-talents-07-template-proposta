@@ -3,6 +3,7 @@ package com.zupedu.monica.propostas.cartao;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Bloqueio {
@@ -16,29 +17,39 @@ public class Bloqueio {
     private boolean ativo = false;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Cartao cartao;
+    private String userAgent;
 
-    public Bloqueio(String id, String sistemaResponsavel, boolean ativo) {
-        this.id = id;
+    public Bloqueio(String userAgent, Cartao cartao, boolean ativo) {
         this.bloqueadoEm = LocalDateTime.now();
-        this.sistemaResponsavel = sistemaResponsavel;
+        this.userAgent = userAgent;
         this.ativo = ativo;
-    }
-
-    public Bloqueio(String sistemaResponsavel, Cartao cartao, Boolean ativo) {
-        this.ativo = true;
-        this.bloqueadoEm = LocalDateTime.now();
-        this.sistemaResponsavel = sistemaResponsavel;
         this.cartao = cartao;
     }
 
-    public void setAtivo(boolean ativo) {
+    public Bloqueio(String userAgent, String sistemaResponsavel, boolean ativo) {
+        this.userAgent = userAgent;
         this.ativo = ativo;
+        this.sistemaResponsavel = sistemaResponsavel;
     }
 
     public boolean isAtivo() {
         return ativo;
     }
 
+    public void setSistemaResponsavel(String sistemaResponsavel) {
+        this.sistemaResponsavel = sistemaResponsavel;
+    }
+
+    public String getSistemaResponsavel() {
+        return sistemaResponsavel;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
     @Deprecated
-    public Bloqueio() {   }
+
+    public Bloqueio() {
+    }
 }

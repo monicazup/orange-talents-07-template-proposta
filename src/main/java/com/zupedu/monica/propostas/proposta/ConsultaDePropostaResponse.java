@@ -1,14 +1,7 @@
 package com.zupedu.monica.propostas.proposta;
 
 import com.zupedu.monica.propostas.cartao.Cartao;
-import com.zupedu.monica.propostas.config.CPFouCNPJ;
-import com.zupedu.monica.propostas.solicitacao.StatusSolicitacao;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
 public class ConsultaDePropostaResponse {
@@ -19,7 +12,7 @@ public class ConsultaDePropostaResponse {
     private String nome;
     private BigDecimal salario;
     private EnderecoDeSolicitante enderecoDeSolicitante;
-    private StatusSolicitacao status;
+    private StatusSolicitacaoEnum status;
     private Cartao cartao;
 
 
@@ -59,7 +52,7 @@ public class ConsultaDePropostaResponse {
         return enderecoDeSolicitante;
     }
 
-    public StatusSolicitacao getStatus() {
+    public StatusSolicitacaoEnum getStatus() {
         return status;
     }
 
