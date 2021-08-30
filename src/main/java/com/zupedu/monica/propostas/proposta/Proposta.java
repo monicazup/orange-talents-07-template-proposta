@@ -1,6 +1,7 @@
 package com.zupedu.monica.propostas.proposta;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zupedu.monica.propostas.api_externa.dto_solicitacao.StatusSolicitacaoEnum;
 import com.zupedu.monica.propostas.cartao.Cartao;
 import com.zupedu.monica.propostas.config.CPFouCNPJ;
 

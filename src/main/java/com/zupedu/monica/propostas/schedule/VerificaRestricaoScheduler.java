@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zupedu.monica.propostas.proposta.StatusSolicitacaoEnum.EM_ANALISE;
+import static com.zupedu.monica.propostas.api_externa.dto_solicitacao.StatusSolicitacaoEnum.EM_ANALISE;
 
 
 @Configuration

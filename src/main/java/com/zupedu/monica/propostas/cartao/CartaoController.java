@@ -8,6 +8,8 @@ import com.zupedu.monica.propostas.api_externa.dto_solicitacao.SolicitacaoInclus
 import com.zupedu.monica.propostas.api_externa.dto_solicitacao.SolicitacaoBloqueio;
 
 import com.zupedu.monica.propostas.cartao.dto.AvisoRequest;
+import com.zupedu.monica.propostas.config.security.AutorizacaoViaEmailDoJwt;
+import com.zupedu.monica.propostas.exception.ApiException;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +51,9 @@ public class CartaoController {
     public final Logger logger = LoggerFactory.getLogger(CartaoController.class);
 
     @Transactional
-    @PatchMapping("/{idCartao}/bloqueio")
-    public ResponseEntity<ResultadoBloqueio> bloquearCartao(@PathVariable("idCartao") @NotBlank String idCartao) {
-
+    @PostMapping("/{idCartao}/bloqueio")
+    public ResponseEntity<ResultadoBloqueio> bloquearCartao(@PathVariable("idCartao") @NotBlank String idCartao,
+                                                            @RequestHeader("Authorization") String bearerToken) {
         ResultadoBloqueio resultadoBloqueio = new ResultadoBloqueio();
 
         Cartao cartao = Cartao.procuraCartaoPorId(manager, idCartao);
@@ -62,20 +64,24 @@ public class CartaoController {
         }
 
         /* Verificar se o usuario é o titular do cartao. Retornar 422 UNPROCESSABLE ENTITY */
-        /* if(!cartao.getProposta().getEmail().equalsIgnoreCase(userRequest){
-            return ResponseEntity.unprocessableEntity().build();
-        }*/
+        String emailDoRequestUser = AutorizacaoViaEmailDoJwt.recuperaEmailDoJwt(bearerToken);
+
+        if (!cartao.getProposta().getEmail().equalsIgnoreCase(emailDoRequestUser)) {
+            logger.info("Usuário não autorizado");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
 
         /* Verificar se cartao tem bloqueio ativo. retornar 400 BAD REQUEST*/
         List<Bloqueio> bloqueiosDoCartao = cartao.getBloqueios();
         for (Bloqueio bloqueio : bloqueiosDoCartao) {
             if (bloqueio.isAtivo())
                 logger.info("Tentativa de bloquear um cartão já com bloqueio ativo");
-            return ResponseEntity.badRequest().body(resultadoBloqueio);
+            return ResponseEntity.badRequest().build();
         }
 
         String ipSolicitante = request.getRemoteHost();
         String userAgent = request.getHeader("User-Agent");
+
 
         /*Instanciar */
         Bloqueio novoBloqueio = new Bloqueio(userAgent, ipSolicitante, cartao, true);
@@ -88,10 +94,11 @@ public class CartaoController {
         } catch (FeignException e) {
             logger.info("Feign exception");
 
-            if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value() && resultadoBloqueio.getResultadoBloqueioString().equalsIgnoreCase("FALHA")) {
+            if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value()) {// && resultadoBloqueio.getResultadoBloqueioString().equalsIgnoreCase("FALHA")) {
                 novoBloqueio.setAtivo(false);
                 logger.info("API accounts retornou FALHA.");
             }
+            throw new ApiException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 
         logger.info("Persistindo bloqueio de cartão.");
@@ -103,8 +110,10 @@ public class CartaoController {
     }
 
     @Transactional
-    @PatchMapping("/{idCartao}/aviso-viagem")
-    public ResponseEntity<ResultadoAvisoViagem> registrarAvisoViagem(@PathVariable("idCartao") String idCartao, @RequestBody @Valid AvisoRequest avisoRequest) {
+    @PostMapping("/{idCartao}/aviso-viagem")
+    public ResponseEntity<ResultadoAvisoViagem> registrarAvisoViagem(@PathVariable("idCartao") String idCartao,
+                                                                     @RequestBody @Valid AvisoRequest avisoRequest,
+                                                                     @RequestHeader("Authorization") String bearerToken) {
         ResultadoAvisoViagem resultado = new ResultadoAvisoViagem();
 
         Cartao cartao = Cartao.procuraCartaoPorId(manager, idCartao);
@@ -115,13 +124,21 @@ public class CartaoController {
             return ResponseEntity.notFound().build();
         }
 
+        /* Verificar se o usuario é o titular do cartao. Retornar 422 UNPROCESSABLE ENTITY */
+        String emailDoRequestUser = AutorizacaoViaEmailDoJwt.recuperaEmailDoJwt(bearerToken);
+
+        if (!cartao.getProposta().getEmail().equalsIgnoreCase(emailDoRequestUser)) {
+            logger.info("Usuário não autorizado");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         try {
             resultado = apiContas.solicitarAvisoViagem(avisoRequest, idCartao).getBody();
         } catch (FeignException e) {
             logger.info("Feign exception");
 
             if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value() && resultado.getResultadoString().equalsIgnoreCase("FALHA")) {
-                return ResponseEntity.badRequest().body(resultado);
+                return ResponseEntity.badRequest().build();
             }
         }
 
@@ -136,10 +153,10 @@ public class CartaoController {
     }
 
     @Transactional
-    @PatchMapping("/{id}/associar-paypal")
+    @PostMapping("/{id}/associar-paypal")
     public ResponseEntity<Carteira> associarAPaypal(@PathVariable("id") String idCartao,
                                                     @Valid @RequestBody SolicitacaoInclusaoCarteira request,
-
+                                                    @RequestHeader("Authorization") String bearerToken,
                                                     UriComponentsBuilder uriBuilder) {
         ResultadoCarteira resultado = new ResultadoCarteira();
         Cartao cartao = Cartao.procuraCartaoPorId(manager, idCartao);
@@ -150,10 +167,19 @@ public class CartaoController {
             return ResponseEntity.notFound().build();
         }
 
+        /* Verificar se o usuario é o titular do cartao. Retornar 422 UNPROCESSABLE ENTITY */
+        String emailDoRequestUser = AutorizacaoViaEmailDoJwt.recuperaEmailDoJwt(bearerToken);
+
+        if (!cartao.getProposta().getEmail().equalsIgnoreCase(emailDoRequestUser)) {
+            logger.info("Usuário não autorizado");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+
         try {
             resultado = apiContas.associarACarteira(request, idCartao).getBody();
         } catch (FeignException e) {
-            logger.info("Feign exception");
+            logger.info("cartao.CartaoController>156 Feign exception");
 
             if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value() && resultado.equals("FALHA")) {
                 return ResponseEntity.badRequest().build();

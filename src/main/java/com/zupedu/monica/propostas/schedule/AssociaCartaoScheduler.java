@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 
 import java.util.List;
 
-import static com.zupedu.monica.propostas.proposta.StatusSolicitacaoEnum.*;
+import static com.zupedu.monica.propostas.api_externa.dto_solicitacao.StatusSolicitacaoEnum.*;
 
 @Component
 public class AssociaCartaoScheduler {

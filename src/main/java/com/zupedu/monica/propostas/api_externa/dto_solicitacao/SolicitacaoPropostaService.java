@@ -3,7 +3,6 @@ package com.zupedu.monica.propostas.api_externa.dto_solicitacao;
 import com.zupedu.monica.propostas.api_externa.AnaliseClient;
 import com.zupedu.monica.propostas.proposta.Proposta;
 import com.zupedu.monica.propostas.proposta.PropostaRepository;
-import com.zupedu.monica.propostas.proposta.StatusSolicitacaoEnum;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zupedu.monica.propostas.proposta.StatusSolicitacaoEnum.*;
+import static com.zupedu.monica.propostas.api_externa.dto_solicitacao.StatusSolicitacaoEnum.*;
 
 
 @Service

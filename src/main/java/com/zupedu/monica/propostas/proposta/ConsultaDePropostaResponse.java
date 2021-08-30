@@ -1,5 +1,6 @@
 package com.zupedu.monica.propostas.proposta;
 
+import com.zupedu.monica.propostas.api_externa.dto_solicitacao.StatusSolicitacaoEnum;
 import com.zupedu.monica.propostas.cartao.Cartao;
 
 import java.math.BigDecimal;
