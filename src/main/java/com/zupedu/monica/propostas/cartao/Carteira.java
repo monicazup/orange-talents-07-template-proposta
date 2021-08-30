@@ -1,5 +1,7 @@
 package com.zupedu.monica.propostas.cartao;
 
+import com.zupedu.monica.propostas.api_externa.dto_resultado.ResultadoCarteira;
+import com.zupedu.monica.propostas.api_externa.dto_solicitacao.SolicitacaoInclusaoCarteira;
 import com.zupedu.monica.propostas.cartao.dto.CarteiraRequest;
 
 import javax.persistence.*;
@@ -7,19 +9,35 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Carteira {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @Id
+    private String id;
     private String email;
     private LocalDateTime associadaEm;
+    @Column(unique = true)
     private String emissor;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     Cartao cartao;
 
-    public Carteira(Long id, String email, LocalDateTime associadaEm, String emissor) {
+    public Carteira(String id, String email, LocalDateTime associadaEm, String emissor) {
         this.id = id;
         this.email = email;
         this.associadaEm = associadaEm;
         this.emissor = emissor;
     }
 
+    public Carteira(SolicitacaoInclusaoCarteira solicitacao,
+                    ResultadoCarteira resultado,
+                    Cartao cartao) {
+        this.id = resultado.getId();
+        this.emissor = solicitacao.getCarteira();
+        this.associadaEm = LocalDateTime.now();
+        this.email = solicitacao.getEmail();
+        this.cartao = cartao;
+
+    }
+
+    public String getId() {
+        return id;
+    }
 }

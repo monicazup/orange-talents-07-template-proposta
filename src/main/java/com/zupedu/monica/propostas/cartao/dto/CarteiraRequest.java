@@ -37,7 +37,7 @@ public class CarteiraRequest {
     }
 
     public Carteira paraCarteira() {
-        return new Carteira(Long.valueOf(this.id), this.email, this.associadaEm, this.emissor);
+        return new Carteira(this.id, this.email, this.associadaEm, this.emissor);
     }
 
 }

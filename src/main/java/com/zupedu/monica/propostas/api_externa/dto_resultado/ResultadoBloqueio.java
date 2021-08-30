@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 public class ResultadoBloqueio {
     @Enumerated(EnumType.STRING)
     ResultadoBloqueioEnum resultadoBloqueio;
+    String id;
 
     public String getResultadoBloqueioString() {
         return resultadoBloqueio.toString();

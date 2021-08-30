@@ -2,7 +2,9 @@ package com.zupedu.monica.propostas.api_externa;
 
 import com.zupedu.monica.propostas.api_externa.dto_resultado.ResultadoAvisoViagem;
 import com.zupedu.monica.propostas.api_externa.dto_resultado.ResultadoBloqueio;
+import com.zupedu.monica.propostas.api_externa.dto_resultado.ResultadoCarteira;
 import com.zupedu.monica.propostas.api_externa.dto_solicitacao.SolicitacaoBloqueio;
+import com.zupedu.monica.propostas.api_externa.dto_solicitacao.SolicitacaoInclusaoCarteira;
 import com.zupedu.monica.propostas.cartao.dto.AvisoRequest;
 import com.zupedu.monica.propostas.cartao.dto.CartaoRequest;
 import com.zupedu.monica.propostas.api_externa.dto_solicitacao.SolicitacaoCartao;
@@ -26,4 +28,7 @@ public interface ContasClient {
 
     @PostMapping(value = "/{id}/avisos", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ResultadoAvisoViagem> solicitarAvisoViagem(@RequestBody AvisoRequest solicitacao, @PathVariable("id") String idCartao);
+
+    @PostMapping(value = "/{id}/carteiras", consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ResultadoCarteira> associarACarteira(@RequestBody SolicitacaoInclusaoCarteira request, @PathVariable("id") String idCartao);
 }

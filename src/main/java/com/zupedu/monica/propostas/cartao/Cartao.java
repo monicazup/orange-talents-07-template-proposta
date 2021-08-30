@@ -2,6 +2,7 @@ package com.zupedu.monica.propostas.cartao;
 
 import com.zupedu.monica.propostas.cartao.dto.*;
 import com.zupedu.monica.propostas.proposta.Proposta;
+import org.springframework.http.ResponseEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
