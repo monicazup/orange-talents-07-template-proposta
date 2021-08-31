@@ -30,6 +30,8 @@ import javax.validation.constraints.NotBlank;
 import java.net.URI;
 import java.util.List;
 
+import static com.zupedu.monica.propostas.cartao.CarteirasEnum.PAYPAL;
+
 @RestController
 @RequestMapping("/cartao")
 public class CartaoController {
@@ -98,7 +100,8 @@ public class CartaoController {
                 novoBloqueio.setAtivo(false);
                 logger.info("API accounts retornou FALHA.");
             }
-            throw new ApiException(HttpStatus.BAD_REQUEST, e.getMessage());
+            logger.info("Refatorar erro para scheduler de tentativas e retornar um response provisório");
+            throw new ApiException(HttpStatus.SERVICE_UNAVAILABLE, "Serviço externo fora do ar");
         }
 
         logger.info("Persistindo bloqueio de cartão.");
@@ -140,11 +143,13 @@ public class CartaoController {
             if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value() && resultado.getResultadoString().equalsIgnoreCase("FALHA")) {
                 return ResponseEntity.badRequest().build();
             }
+            logger.info("Refatorar erro para scheduler de tentativas e retornar um response provisório");
+            throw new ApiException(HttpStatus.SERVICE_UNAVAILABLE, "Serviço externo fora do ar");
         }
+
 
         String ipSolicitante = request.getRemoteHost();
         String userAgent = request.getHeader("User-Agent");
-
 
         Aviso aviso = new Aviso(avisoRequest, cartao, userAgent, ipSolicitante);
         manager.persist(aviso);
@@ -179,19 +184,22 @@ public class CartaoController {
         try {
             resultado = apiContas.associarACarteira(request, idCartao).getBody();
         } catch (FeignException e) {
-            logger.info("cartao.CartaoController>156 Feign exception");
+            logger.info("cartao.CartaoController>l.156 Feign exception");
 
             if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value() && resultado.equals("FALHA")) {
                 return ResponseEntity.badRequest().build();
             }
+            logger.info("Refatorar erro para scheduler de tentativas e retornar um response provisório");
+            throw new ApiException(HttpStatus.SERVICE_UNAVAILABLE, "Serviço externo fora do ar");
 
         }
-        Carteira carteira = new Carteira(request, resultado, cartao);
+        Carteira carteira = new Carteira(PAYPAL, request, resultado, cartao);
         manager.persist(carteira);
-        URI location = uriBuilder.path("/biometria/{id}")
-                .buildAndExpand(carteira.getId())
+        URI location = uriBuilder.path("/{idCartao}/carteiras/{id}")
+                .buildAndExpand(cartao, carteira.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
-
     }
+
+
 }

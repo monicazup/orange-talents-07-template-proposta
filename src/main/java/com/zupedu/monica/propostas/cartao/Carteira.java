@@ -16,6 +16,8 @@ public class Carteira {
     private LocalDateTime associadaEm;
     @Column(unique = true)
     private String emissor;
+    @Enumerated(EnumType.STRING)
+    private CarteirasEnum carteirasEnum;
     @ManyToOne(cascade = CascadeType.MERGE)
     Cartao cartao;
 
@@ -26,9 +28,11 @@ public class Carteira {
         this.emissor = emissor;
     }
 
-    public Carteira(SolicitacaoInclusaoCarteira solicitacao,
+    public Carteira(CarteirasEnum tipoCarteira,
+                    SolicitacaoInclusaoCarteira solicitacao,
                     ResultadoCarteira resultado,
                     Cartao cartao) {
+        this.carteirasEnum = tipoCarteira;
         this.id = resultado.getId();
         this.emissor = solicitacao.getCarteira();
         this.associadaEm = LocalDateTime.now();
@@ -36,6 +40,7 @@ public class Carteira {
         this.cartao = cartao;
 
     }
+
 
     public String getId() {
         return id;
