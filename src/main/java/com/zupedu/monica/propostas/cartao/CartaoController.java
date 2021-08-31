@@ -30,7 +30,7 @@ import javax.validation.constraints.NotBlank;
 import java.net.URI;
 import java.util.List;
 
-import static com.zupedu.monica.propostas.cartao.CarteirasEnum.PAYPAL;
+import static com.zupedu.monica.propostas.cartao.CarteirasEnum.*;
 
 @RestController
 @RequestMapping("/cartao")
@@ -201,5 +201,48 @@ public class CartaoController {
         return ResponseEntity.created(location).build();
     }
 
+    @Transactional
+    @PostMapping("/{id}/associar-samsung-pay")
+    public ResponseEntity<Carteira> associarASamsungPay(@PathVariable("id") String idCartao,
+                                                    @Valid @RequestBody SolicitacaoInclusaoCarteira request,
+                                                    @RequestHeader("Authorization") String bearerToken,
+                                                    UriComponentsBuilder uriBuilder) {
+        ResultadoCarteira resultado = new ResultadoCarteira();
+        Cartao cartao = Cartao.procuraCartaoPorId(manager, idCartao);
+
+        /*Verificar se cartao é valido, retornar 404 */
+        if (cartao == null) {
+            logger.info("Cartão nulo ou não encontrado.");
+            return ResponseEntity.notFound().build();
+        }
+
+        /* Verificar se o usuario é o titular do cartao. Retornar 422 UNPROCESSABLE ENTITY */
+        String emailDoRequestUser = AutorizacaoViaEmailDoJwt.recuperaEmailDoJwt(bearerToken);
+
+        if (!cartao.getProposta().getEmail().equalsIgnoreCase(emailDoRequestUser)) {
+            logger.info("Usuário não autorizado");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+
+        try {
+            resultado = apiContas.associarACarteira(request, idCartao).getBody();
+        } catch (FeignException e) {
+            logger.info("cartao.CartaoController>l.156 Feign exception");
+
+            if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value() && resultado.equals("FALHA")) {
+                return ResponseEntity.badRequest().build();
+            }
+            logger.info("Refatorar erro para scheduler de tentativas e retornar um response provisório");
+            throw new ApiException(HttpStatus.SERVICE_UNAVAILABLE, "Serviço externo fora do ar");
+
+        }
+        Carteira carteira = new Carteira(SAMSUNG_PAY, request, resultado, cartao);
+        manager.persist(carteira);
+        URI location = uriBuilder.path("/{idCartao}/carteiras/{id}")
+                .buildAndExpand(cartao, carteira.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
 
 }
