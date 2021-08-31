@@ -1,5 +1,7 @@
 package com.zupedu.monica.propostas.proposta;
 
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,27 +16,30 @@ import java.net.URI;
 @RequestMapping("/proposta")
 public class PropostaController {
 
-    EntityManager manager;
-    public PropostaController(EntityManager manager) {
-        this.manager = manager;
-    }
+
+    @Autowired
+    private EntityManager manager;
+
+    @Autowired
+    private Tracer tracer;
 
     @PostMapping @Transactional
     public ResponseEntity<Proposta> cadastrar(@RequestBody @Valid PropostaRequest request,
                                        UriComponentsBuilder uriBuilder) {
 
-
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("user.email", "monica.gomides@zup.com");
+        activeSpan.log("Testando LOG: Cadastro de proposta");
         Proposta proposta = request.paraProposta();
 
         manager.persist(proposta);
-
+        tracer.activeSpan().setBaggageItem("proposta.id", proposta.getId().toString());
         URI location = uriBuilder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ConsultaDePropostaResponse> consultar(@PathVariable("id") Long idProposta/*,
-     @AuthenticationPrincipal Usuario usuario */) {
+    public ResponseEntity<ConsultaDePropostaResponse> consultar(@PathVariable("id") Long idProposta) {
 
         Proposta proposta = manager.find(Proposta.class, idProposta);
 
@@ -46,4 +51,9 @@ public class PropostaController {
 
         return ResponseEntity.ok().body(propostaResponse);
     }
+
+    @Deprecated
+    public PropostaController(){}
+
+
 }

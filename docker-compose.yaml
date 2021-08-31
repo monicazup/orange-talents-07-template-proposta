@@ -37,13 +37,13 @@ services:
 #      - contas
 #      - keycloak
 #      - propostasdb-postgres
-
-    environment:
-      ANALISES_URL: http://analise:9999/api/solicitacao
-      CARTOES_URL: http://contas:8888/api/cartoes
-      DATABASE_URL: jdbc:postgresql://propostasdb-postgres:5432/propostas
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: 123
+#
+#    environment:
+#      ANALISES_URL: http://analise:9999/api/solicitacao
+#      CARTOES_URL: http://contas:8888/api/cartoes
+#      DATABASE_URL: jdbc:postgresql://propostasdb-postgres:5432/propostas
+#      DATABASE_USER: postgres
+#      DATABASE_PASSWORD: 123
 
   #APPLICATION DATABASE
   #check in 17 de agosto

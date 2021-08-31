@@ -41,7 +41,6 @@ public class Carteira {
 
     }
 
-
     public String getId() {
         return id;
     }
