@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zupedu.monica.propostas.api_externa.dto_solicitacao.StatusSolicitacaoEnum;
 import com.zupedu.monica.propostas.cartao.Cartao;
 import com.zupedu.monica.propostas.config.CPFouCNPJ;
+import com.zupedu.monica.propostas.config.security.Criptografia;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -18,8 +19,10 @@ public class Proposta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @CPFouCNPJ @NotBlank @Column(unique = true)
+    @NotBlank @Column(unique = true)
     private String documento;
+    @NotBlank @Column(unique = true)
+    private String documentoHash;
     @Email
     @NotBlank
     private String email;
@@ -35,11 +38,16 @@ public class Proposta {
     private Cartao cartao;
 
     public Proposta(String documento,
+                    String documentoHash,
                     String email,
                     String nome,
                     BigDecimal salario, EnderecoDeSolicitante enderecoDeSolicitante
                     ) {
+
+        this.documento = Criptografia.criptografar(documento);
+        this.documentoHash = documentoHash;
         this.documento = documento;
+        this.documento = Criptografia.hash(documento);
         this.email = email;
         this.nome = nome;
         this.salario = salario;

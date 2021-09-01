@@ -2,6 +2,7 @@ package com.zupedu.monica.propostas.proposta;
 
 import com.zupedu.monica.propostas.config.CPFouCNPJ;
 import com.zupedu.monica.propostas.config.CampoUnico;
+import com.zupedu.monica.propostas.config.security.Criptografia;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -13,7 +14,6 @@ import java.math.BigDecimal;
 public class PropostaRequest {
 
     @CPFouCNPJ
-    @CampoUnico(fieldName = "documento", entityClass = Proposta.class)
     @NotBlank
     private String documento;
     @Email @NotBlank
@@ -24,10 +24,12 @@ public class PropostaRequest {
     private EnderecoRequest endereco;
     @NotNull @PositiveOrZero
     private BigDecimal salario;
+    @CampoUnico(fieldName = "documentoHash", entityClass = Proposta.class)
+    private String documentoHash = Criptografia.hash(documento);
 
     public Proposta paraProposta() {
-        return new Proposta(documento, email, nome, salario, endereco.toEndereco());
-
+        return new Proposta(documento, Criptografia.hash(documento),
+                email, nome, salario, endereco.toEndereco());
     }
 
     public String getDocumento() {
